@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
+from .serializers import UserUpdateSerializer
+from rest_framework import generics, permissions
+from .models import UserAccount
 
 # Create your views here.
 class LogoutView(APIView):
@@ -17,3 +20,15 @@ class LogoutView(APIView):
                return Response(status=status.HTTP_205_RESET_CONTENT)
           except Exception as e:
                return Response(status=status.HTTP_400_BAD_REQUEST)
+          
+
+
+
+class UserAccountUpdateView(generics.UpdateAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserUpdateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+

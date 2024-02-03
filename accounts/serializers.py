@@ -31,3 +31,9 @@ class UserAccountSerializer(serializers.ModelSerializer):
         # Hash the password before saving it to the database
         validated_data['password'] = make_password(validated_data.get('password'))
         return super(UserAccountSerializer, self).update(instance, validated_data)
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAccount
+        fields = ('first_name', 'last_name')
